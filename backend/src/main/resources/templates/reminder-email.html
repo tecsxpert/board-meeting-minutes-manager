@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Daily Reminder</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px;">
+        <h2 style="color: #1B4F8A;">Board Meeting Minutes Manager</h2>
+        <p>Dear <strong th:text="${recipientName}">User</strong>,</p>
+        <p>This is your daily reminder to review and update your board meeting minutes.</p>
+        <p>Please log in to the system and ensure all meeting minutes are up to date.</p>
+        <a href="http://localhost"
+           style="background-color: #1B4F8A; color: white; padding: 10px 20px;
+                  text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+            Go to Dashboard
+        </a>
+        <p style="margin-top: 20px; color: #888; font-size: 12px;">
+            This is an automated reminder from Board Meeting Minutes Manager.
+        </p>
+    </div>
+</body>
+</html>

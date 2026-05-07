@@ -2,16 +2,14 @@ version: "3.9"
 
 services:
 
-  # ------------------------------------------------------------------
-  # PostgreSQL Database
-  # ------------------------------------------------------------------
+  # ── PostgreSQL ──────────────────────────────────────
   postgres:
     image: postgres:15-alpine
     container_name: board_meeting_db
     restart: unless-stopped
     environment:
-      POSTGRES_DB:       ${POSTGRES_DB}
-      POSTGRES_USER:     ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
@@ -22,10 +20,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 20s
 
-  # ------------------------------------------------------------------
-  # Spring Boot Backend
-  # ------------------------------------------------------------------
+  # ── Redis ────────────────────────────────────────────
+  redis:
+    image: redis:7
+    container_name: boardminutes_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  # ── Spring Boot Backend ──────────────────────────────
   backend:
     build:
       context: ./backend
@@ -35,24 +46,64 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL:      jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      SPRING_FLYWAY_ENABLED:      true
-      SERVER_PORT:                ${SERVER_PORT:-8080}
-      OPENAI_API_KEY:             ${OPENAI_API_KEY}
-      JWT_SECRET:                 ${JWT_SECRET}
-      JWT_EXPIRATION_MS:          ${JWT_EXPIRATION_MS:-86400000}
+      SPRING_FLYWAY_ENABLED: true
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
       - "${SERVER_PORT:-8080}:8080"
     volumes:
       - ./backend/logs:/app/logs
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
-# ------------------------------------------------------------------
-# Named Volumes
-# ------------------------------------------------------------------
+  # ── Flask AI Service ─────────────────────────────────
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: boardminutes_ai
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ── React Frontend ───────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: boardminutes_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   postgres_data:
     driver: local

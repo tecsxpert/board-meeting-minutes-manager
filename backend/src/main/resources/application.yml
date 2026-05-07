@@ -1,93 +1,79 @@
-# application.yml: Spring Boot application configuration for Board Meeting Minutes Manager.
-# Configures datasource, JPA, Flyway, JWT secret, file upload limits, and SpringDoc.
+server:
+  port: 8080
 
 spring:
   application:
     name: board-meeting-minutes-manager
 
-  # ── DataSource (PostgreSQL 15) ─────────────────────────────────────────────
+  # ─── Database ─────────────────────────────────────────
   datasource:
-    url: jdbc:postgresql://localhost:5432/board_minutes_db
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:boardminutes}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-    hikari:
-      connection-timeout: 30000
-      maximum-pool-size: 10
-      minimum-idle: 2
 
-  # ── JPA / Hibernate ────────────────────────────────────────────────────────
+  # ─── JPA ──────────────────────────────────────────────
   jpa:
     hibernate:
-      ddl-auto: validate        # Flyway owns schema — Hibernate only validates
+      ddl-auto: validate
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
     open-in-view: false
 
-  # ── Flyway ────────────────────────────────────────────────────────────────
+  # ─── Flyway ───────────────────────────────────────────
   flyway:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-  # ── File Upload ─────────────────────────────────────────────────────────
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 5MB
-      max-request-size: 5MB
-
-  # ── JPA Auditing ──────────────────────────────────────────────────────────
+  # ─── Redis ────────────────────────────────────────────
   data:
-    jpa:
-      repositories:
-        enabled: true
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
-# ── Server ────────────────────────────────────────────────────────────────────
-server:
-  port: 8080
-  error:
-    include-message: always
-    include-binding-errors: always
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000   # 10 minutes in ms
 
-# ── JWT ───────────────────────────────────────────────────────────────────────
-app:
-  jwt:
-    secret: ${JWT_SECRET:b0ardM1nut3sM4n4g3rS3cr3tK3y2026SuperLongKeyForHS256Algo}
-    expiration-ms: 86400000   # 24 hours
+  # ─── Mail ─────────────────────────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
-# ── SpringDoc / Swagger UI ─────────────────────────────────────────────────────
+# ─── JWT ────────────────────────────────────────────────
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+# ─── AI Service ─────────────────────────────────────────
+ai:
+  service:
+    url: ${AI_SERVICE_URL:http://localhost:5000}
+    timeout-ms: 10000
+
+# ─── Swagger / OpenAPI ──────────────────────────────────
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-    operations-sorter: method
-    tags-sorter: alpha
 
-# ── Logging ──────────────────────────────────────────────────────────────────
-logging:
-  level:
-    com.internship.tool: DEBUG
-    org.springframework.security: WARN
-    org.flywaydb: INFO
-
----
-# ── Test profile overrides ────────────────────────────────────────────────────
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-  flyway:
-    enabled: false
+# ─── Actuator ───────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
