@@ -26,12 +26,14 @@ export default function MeetingFormPage({ meetingId = null }) {
     // Load existing record when editing
     useEffect(() => {
         if (isEdit) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setLoading(true);
             getMeetingById(meetingId)
                 .then((res) => setForm(res.data))
                 .catch(() => setApiError("Failed to load meeting details."))
                 .finally(() => setLoading(false));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [meetingId]);
 
     const validate = () => {

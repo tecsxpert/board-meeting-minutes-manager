@@ -1,0 +1,120 @@
+﻿
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\App.jsx
+  4:59  error  'useNavigate' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\components\AiPanel.jsx
+  25:18  error  'err' is defined but never used  no-unused-vars
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\context\AuthContext.jsx
+  38:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  36 |       const decoded = decodeJwt(savedToken);
+  37 |       if (decoded && decoded.exp * 1000 > Date.now()) {
+> 38 |         setToken(savedToken);
+     |         ^^^^^^^^ Avoid calling setState() directly within an effect
+  39 |         setUser(decoded);
+  40 |       } else {
+  41 |         // Token is expired ΓÇö clear storage  react-hooks/set-state-in-effect
+  81:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-refresh/only-export-components
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\AnalyticsPage.jsx
+  56:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  54 |
+  55 |   useEffect(() => {
+> 56 |     setLoading(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  57 |     (async () => {
+  58 |       try {
+  59 |         const [trendRes, statsRes] = await Promise.allSettled([  react-hooks/set-state-in-effect
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\LoginPage.jsx
+   7:8   error  'api' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  44:14  error  'err' is defined but never used                                             no-unused-vars
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\MeetingFormPage.jsx
+  29:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  27 |     useEffect(() => {
+  28 |         if (isEdit) {
+> 29 |             setLoading(true);
+     |             ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |             getMeetingById(meetingId)
+  31 |                 .then((res) => setForm(res.data))
+  32 |                 .catch(() => setApiError("Failed to load meeting details."))  react-hooks/set-state-in-effect
+  35:8   warning  React Hook useEffect has a missing dependency: 'isEdit'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\MeetingListPage.jsx
+  15:9   error    Error: Cannot access variable before it is declared
+
+`fetchMeetings` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  13 |
+  14 |     useEffect(() => {
+> 15 |         fetchMeetings();
+     |         ^^^^^^^^^^^^^ `fetchMeetings` accessed before it is declared
+  16 |     }, [page]);
+  17 |
+  18 |     const fetchMeetings = async () => {
+
+  16 |     }, [page]);
+  17 |
+> 18 |     const fetchMeetings = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |         setLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         setError(null);
+     ΓÇª
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 29 |         }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     };
+     | ^^^^^^^ `fetchMeetings` is declared here
+  31 |
+  32 |     const handleDelete = async (id) => {
+  33 |         if (!window.confirm("Are you sure you want to delete this meeting?")) return;  react-hooks/immutability
+  16:8   warning  React Hook useEffect has a missing dependency: 'fetchMeetings'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+  25:18  error    'err' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     no-unused-vars
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\MinutesList.jsx
+   66:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  64 |
+  65 |   useEffect(() => {
+> 66 |     fetchMinutes(0);
+     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  67 |   }, [fetchMinutes]);
+  68 |
+  69 |   // ΓöÇΓöÇ Delete ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  react-hooks/set-state-in-effect
+  116:30  error  '_filters' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    no-unused-vars
+
+Γ£û 14 problems (12 errors, 2 warnings)
+

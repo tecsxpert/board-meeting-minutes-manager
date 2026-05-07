@@ -1,0 +1,27 @@
+﻿
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\context\AuthContext.jsx
+  4:47  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\rahul\Desktop\internship\Board Meeting Minutes Manager\board-meeting-minutes-manager\frontend\src\pages\MeetingListPage.jsx
+  29:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  27 |
+  28 |     useEffect(() => {
+> 29 |         fetchMeetings();
+     |         ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |     // eslint-disable-next-line react-hooks/exhaustive-deps
+  31 |     }, [page]);
+  32 |  react-hooks/set-state-in-effect
+
+Γ£û 2 problems (2 errors, 0 warnings)
+

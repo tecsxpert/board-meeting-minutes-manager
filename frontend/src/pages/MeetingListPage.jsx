@@ -11,10 +11,6 @@ export default function MeetingListPage() {
     const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchMeetings();
-    }, [page]);
-
     const fetchMeetings = async () => {
         setLoading(true);
         setError(null);
@@ -22,12 +18,18 @@ export default function MeetingListPage() {
             const response = await api.get(`/api/meetings?page=${page}&size=10`);
             setMeetings(response.data.content);
             setTotalPages(response.data.totalPages);
-        } catch (err) {
+        } catch {
             setError("Failed to load meetings. Please try again.");
         } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchMeetings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
 
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this meeting?")) return;

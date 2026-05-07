@@ -22,7 +22,7 @@ export default function AiPanel({ meetingId, minutesText }) {
         try {
             const response = await api.post(endpoints[type], { minutesText });
             setResult(response.data);
-        } catch (err) {
+        } catch {
             setError("AI service unavailable. Please try again.");
         } finally {
             setLoading(false);
@@ -42,8 +42,8 @@ export default function AiPanel({ meetingId, minutesText }) {
                 <button
                     onClick={() => callAi("describe")}
                     className={`px-3 py-2 rounded text-sm font-medium border transition-all ${activeTab === "describe"
-                            ? "bg-primary text-white border-primary"
-                            : "bg-white text-primary border-primary hover:bg-blue-50"
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-primary border-primary hover:bg-blue-50"
                         }`}
                 >
                     📝 Describe
@@ -51,8 +51,8 @@ export default function AiPanel({ meetingId, minutesText }) {
                 <button
                     onClick={() => callAi("recommend")}
                     className={`px-3 py-2 rounded text-sm font-medium border transition-all ${activeTab === "recommend"
-                            ? "bg-primary text-white border-primary"
-                            : "bg-white text-primary border-primary hover:bg-blue-50"
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-primary border-primary hover:bg-blue-50"
                         }`}
                 >
                     💡 Recommend
@@ -60,8 +60,8 @@ export default function AiPanel({ meetingId, minutesText }) {
                 <button
                     onClick={() => callAi("report")}
                     className={`px-3 py-2 rounded text-sm font-medium border transition-all ${activeTab === "report"
-                            ? "bg-primary text-white border-primary"
-                            : "bg-white text-primary border-primary hover:bg-blue-50"
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-primary border-primary hover:bg-blue-50"
                         }`}
                 >
                     📊 Generate Report
@@ -129,10 +129,10 @@ export default function AiPanel({ meetingId, minutesText }) {
                                                     {rec.action_type}
                                                 </span>
                                                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${rec.priority === "HIGH"
-                                                        ? "bg-red-100 text-red-600"
-                                                        : rec.priority === "MEDIUM"
-                                                            ? "bg-yellow-100 text-yellow-600"
-                                                            : "bg-gray-100 text-gray-500"
+                                                    ? "bg-red-100 text-red-600"
+                                                    : rec.priority === "MEDIUM"
+                                                        ? "bg-yellow-100 text-yellow-600"
+                                                        : "bg-gray-100 text-gray-500"
                                                     }`}>
                                                     {rec.priority}
                                                 </span>

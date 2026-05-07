@@ -1,17 +1,24 @@
--- V2__audit_log.sql: Audit log table for tracking all changes
+-- V2__audit_log.sql: Creates the audit_log table to track all entity changes (CREATE, UPDATE, DELETE).
+-- Uses UUID primary key and indexes entity_id for fast lookups by entity.
 
 CREATE TABLE audit_log (
-    id           BIGSERIAL PRIMARY KEY,
-    entity_name  VARCHAR(100)  NOT NULL,
-    entity_id    BIGINT,
-    action       VARCHAR(50)   NOT NULL,  -- CREATE, UPDATE, DELETE
+    id           UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+    entity_type  VARCHAR(50)  NOT NULL,
+    entity_id    UUID         NOT NULL,
+    action       VARCHAR(20)  NOT NULL,
     performed_by VARCHAR(100),
-    details      TEXT,
-    ip_address   VARCHAR(50),
-    created_at   TIMESTAMP     NOT NULL DEFAULT NOW()
+    performed_at TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_audit_entity    ON audit_log(entity_name, entity_id);
-CREATE INDEX idx_audit_action    ON audit_log(action);
-CREATE INDEX idx_audit_created   ON audit_log(created_at);
-CREATE INDEX idx_audit_performed ON audit_log(performed_by);
+-- Constraint to enforce valid action values
+ALTER TABLE audit_log
+    ADD CONSTRAINT chk_audit_action CHECK (action IN ('CREATE', 'UPDATE', 'DELETE'));
+
+-- Index on entity_id for fast lookups per entity
+CREATE INDEX idx_audit_log_entity_id ON audit_log (entity_id);
+
+-- Index on entity_type + entity_id for compound queries
+CREATE INDEX idx_audit_log_entity_type_id ON audit_log (entity_type, entity_id);
+
+-- Index on performed_at for time-range queries
+CREATE INDEX idx_audit_log_performed_at ON audit_log (performed_at);

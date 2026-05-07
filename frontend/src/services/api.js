@@ -1,33 +1,38 @@
-import axios from 'axios';
+// api.js: Axios instance pre-configured with base URL and JWT auth interceptors.
+// Request interceptor attaches the Bearer token; response interceptor redirects 401s to /login.
+
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+  baseURL: "http://localhost:8080/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Attach JWT token to every request if present
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+// ── Request interceptor — attach JWT from localStorage ──────────────────────
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
-});
+  },
+  (error) => Promise.reject(error)
+);
 
-// Handle 401 globally
+// ── Response interceptor — redirect to /login on 401 ────────────────────────
 api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');  // ← only change
-            window.location.href = '/login';
-        }
-        return Promise.reject(error);
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
     }
+    return Promise.reject(error);
+  }
 );
 
 export default api;
