@@ -1,6 +1,6 @@
 # 📋 Board Meeting Minutes Manager
 
-> Tool-99 — AI-powered Board Meeting Minutes Manager | Capstone Project | Sprint: 14 April – 9 May 2026
+> Tool-99 — Board Meeting Minutes Manager | Capstone Project | Sprint: 14 April – 9 May 2026
 
 ---
 
@@ -123,7 +123,7 @@ board-meeting-minutes-manager/
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/tecsxpert/board-meeting-minutes-manager
 cd board-meeting-minutes-manager
 ```
 

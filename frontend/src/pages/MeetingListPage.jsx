@@ -19,7 +19,7 @@ export default function MeetingListPage() {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/api/meetings?page=${page}&size=10`);
+            const response = await api.get(`/api/minutes?page=${page}&size=10`);
             setMeetings(response.data.content);
             setTotalPages(response.data.totalPages);
         } catch (err) {
@@ -32,7 +32,7 @@ export default function MeetingListPage() {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this meeting?")) return;
         try {
-            await api.delete(`/api/meetings/${id}`);
+            await api.delete(`/api/minutes/${id}`);
             setMeetings((prev) => prev.filter((m) => m.id !== id));
         } catch {
             setError("Failed to delete meeting. Please try again.");

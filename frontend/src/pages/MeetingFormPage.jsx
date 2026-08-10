@@ -4,10 +4,9 @@ import { getMeetingById, createMeeting, updateMeeting } from "../services/meetin
 const EMPTY_FORM = {
     title: "",
     meetingDate: "",
-    location: "",
     attendees: "",
     agenda: "",
-    minutesText: "",
+    content: "",
     status: "DRAFT",
 };
 
@@ -39,7 +38,7 @@ export default function MeetingFormPage({ meetingId = null }) {
         if (!form.title.trim()) e.title = "Title is required.";
         if (form.title.length > 255) e.title = "Title must be under 255 characters.";
         if (!form.meetingDate) e.meetingDate = "Meeting date is required.";
-        if (!form.minutesText.trim()) e.minutesText = "Minutes text is required.";
+        if (!form.content.trim()) e.content = "Minutes text is required.";
         if (!form.status) e.status = "Status is required.";
         return e;
     };
@@ -152,19 +151,6 @@ export default function MeetingFormPage({ meetingId = null }) {
                         {errors.meetingDate && <p className="text-red-500 text-xs mt-1">{errors.meetingDate}</p>}
                     </div>
 
-                    {/* Location */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                        <input
-                            type="text"
-                            name="location"
-                            value={form.location}
-                            onChange={handleChange}
-                            placeholder="e.g. Conference Room B"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
                     {/* Attendees */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Attendees</label>
@@ -197,15 +183,15 @@ export default function MeetingFormPage({ meetingId = null }) {
                             Minutes <span className="text-red-500">*</span>
                         </label>
                         <textarea
-                            name="minutesText"
-                            value={form.minutesText}
+                            name="content"
+                            value={form.content}
                             onChange={handleChange}
                             rows={5}
                             placeholder="Write full meeting minutes here..."
                             className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none
-                ${errors.minutesText ? "border-red-400" : "border-gray-300"}`}
+                ${errors.content ? "border-red-400" : "border-gray-300"}`}
                         />
-                        {errors.minutesText && <p className="text-red-500 text-xs mt-1">{errors.minutesText}</p>}
+                        {errors.content && <p className="text-red-500 text-xs mt-1">{errors.content}</p>}
                     </div>
 
                     {/* Status */}

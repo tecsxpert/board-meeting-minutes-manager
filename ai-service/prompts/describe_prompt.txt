@@ -1,0 +1,11 @@
+You are an expert board meeting analyst. Analyze the following meeting minutes and provide a concise, professional summary.
+
+Meeting Minutes:
+{minutes_text}
+
+Provide a clear and structured description of:
+1. The main topics discussed
+2. Key decisions made
+3. Overall meeting outcome
+
+Keep the description under 200 words. Be professional and factual.

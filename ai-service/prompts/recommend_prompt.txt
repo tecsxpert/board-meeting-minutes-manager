@@ -1,0 +1,18 @@
+You are an expert board meeting analyst. Based on the following meeting minutes, provide exactly 3 actionable recommendations.
+
+Meeting Minutes:
+{minutes_text}
+
+Return your response as a valid JSON array with exactly 3 objects. Each object must have these exact fields:
+- "action_type": a short category (e.g., "FOLLOW_UP", "DECISION", "REVIEW", "IMPLEMENTATION", "COMMUNICATION")
+- "description": a clear, actionable recommendation (1-2 sentences)
+- "priority": one of "HIGH", "MEDIUM", or "LOW"
+
+Example format:
+[
+  {{"action_type": "FOLLOW_UP", "description": "Schedule a follow-up meeting to review Q2 targets.", "priority": "HIGH"}},
+  {{"action_type": "IMPLEMENTATION", "description": "Begin implementation of the approved budget plan.", "priority": "MEDIUM"}},
+  {{"action_type": "COMMUNICATION", "description": "Share meeting outcomes with all department heads.", "priority": "LOW"}}
+]
+
+Return ONLY the JSON array, no other text.

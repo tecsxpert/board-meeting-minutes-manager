@@ -1,0 +1,22 @@
+You are an expert board meeting analyst. Generate a comprehensive structured report based on the following meeting minutes.
+
+Meeting Minutes:
+{minutes_text}
+
+Return your response as a valid JSON object with these exact fields:
+- "title": a professional report title
+- "summary": a 2-3 sentence executive summary
+- "overview": a detailed overview paragraph (3-4 sentences)
+- "key_items": an array of 3-5 key discussion points or decisions (strings)
+- "recommendations": an array of 2-3 follow-up recommendations (strings)
+
+Example format:
+{{
+  "title": "Q2 Board Review Meeting Report",
+  "summary": "The board convened to review Q2 performance...",
+  "overview": "The meeting covered financial performance, product roadmap...",
+  "key_items": ["Revenue targets met at 98%", "New hiring plan approved"],
+  "recommendations": ["Schedule follow-up on budget allocation", "Review marketing strategy"]
+}}
+
+Return ONLY the JSON object, no other text.

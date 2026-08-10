@@ -35,10 +35,10 @@ export default function LoginPage() {
         setError(null);
         try {
             const res = await loginUser(form.username, form.password);
-            // Backend returns { token, username, role }
+            // Backend returns { token }
             login(res.data.token, {
-                username: res.data.username,
-                role: res.data.role,
+                username: form.username,
+                role: "USER",
             });
             navigate("/");
         } catch (err) {

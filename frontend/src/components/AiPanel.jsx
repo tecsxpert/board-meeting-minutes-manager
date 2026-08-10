@@ -14,9 +14,9 @@ export default function AiPanel({ meetingId, minutesText }) {
         setError(null);
 
         const endpoints = {
-            describe: `/api/meetings/${meetingId}/ai/describe`,
-            recommend: `/api/meetings/${meetingId}/ai/recommend`,
-            report: `/api/meetings/${meetingId}/ai/generate-report`,
+            describe: `/api/minutes/${meetingId}/ai/describe`,
+            recommend: `/api/minutes/${meetingId}/ai/recommend`,
+            report: `/api/minutes/${meetingId}/ai/generate-report`,
         };
 
         try {

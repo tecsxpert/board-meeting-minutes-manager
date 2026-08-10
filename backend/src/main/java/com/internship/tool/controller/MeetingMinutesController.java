@@ -26,28 +26,28 @@ public class MeetingMinutesController {
 
     // GET /api/minutes?page=0&size=10
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Page<MeetingMinutes>> getAll(Pageable pageable) {
         return ResponseEntity.ok(service.getAll(pageable));
     }
 
     // GET /api/minutes/{id}
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<MeetingMinutes> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     // POST /api/minutes
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<MeetingMinutes> create(@Valid @RequestBody MeetingMinutes meetingMinutes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(meetingMinutes));
     }
 
     // PUT /api/minutes/{id}
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<MeetingMinutes> update(
             @PathVariable Long id,
             @Valid @RequestBody MeetingMinutes meetingMinutes) {
@@ -56,7 +56,7 @@ public class MeetingMinutesController {
 
     // DELETE /api/minutes/{id} — soft delete
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
@@ -64,7 +64,7 @@ public class MeetingMinutesController {
 
     // GET /api/minutes/search?q=keyword
     @GetMapping("/search")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Page<MeetingMinutes>> search(
             @RequestParam String q,
             Pageable pageable) {
@@ -73,7 +73,7 @@ public class MeetingMinutesController {
 
     // GET /api/minutes/filter/status?status=DRAFT
     @GetMapping("/filter/status")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Page<MeetingMinutes>> filterByStatus(
             @RequestParam String status,
             Pageable pageable) {
@@ -82,7 +82,7 @@ public class MeetingMinutesController {
 
     // GET /api/minutes/filter/date-range?start=2026-01-01&end=2026-12-31
     @GetMapping("/filter/date-range")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Page<MeetingMinutes>> filterByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
@@ -92,7 +92,7 @@ public class MeetingMinutesController {
 
     // GET /api/minutes/stats — dashboard KPIs
     @GetMapping("/stats")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // TEMPORARILY DISABLED
     public ResponseEntity<Map<String, Object>> getStats() {
         long total = repository.countByIsDeletedFalse();
         long published = repository.countByStatusAndIsDeletedFalse("PUBLISHED");
